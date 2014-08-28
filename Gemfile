@@ -16,6 +16,10 @@ gem 'rake', '~> 0.9.6'
 #
 # $ rhc env set BUNDLE_WITHOUT="development test postgresql"
 #
+
+# Authentication
+gem 'devise'
+
 group :development, :test do
   gem 'sqlite3'
   gem 'minitest'
