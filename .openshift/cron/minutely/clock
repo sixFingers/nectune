@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/bin/rhcsh
 
-cd $OPENSHIFT_REPO_DIR & bundle exec rake clock
+export PATH=$(build_path)
+export LD_LIBRARY_PATH=$(build_ld_library_path)
+cd $OPENSHIFT_REPO_DIR && bundle exec rake clock
