@@ -24,6 +24,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'minitest'
   gem 'thor'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Add support for the MySQL
