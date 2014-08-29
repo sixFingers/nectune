@@ -1,3 +1,4 @@
 #!/bin/bash
 
-rake clock
+cd ${OPENSHIFT_REPO_DIR || '.'}
+bundle exec rake clock
