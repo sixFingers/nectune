@@ -58,6 +58,4 @@ Rails.application.routes.draw do
   #   end
 
   root to: "home#index"
-
-  mount Resque::Server, :at => "/resque"
 end
