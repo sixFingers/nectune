@@ -58,4 +58,8 @@ Rails.application.routes.draw do
   #   end
 
   root to: "home#index"
+  # resource :source
+  # match 'sources/lookup' => 'sources#lookup', as: :lookup_sources, via: [:get, :post]
+  resources :sources
+  post 'sources/new'
 end

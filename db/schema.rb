@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829003544) do
+ActiveRecord::Schema.define(version: 20140830163909) do
 
   create_table "sources", force: true do |t|
     t.string   "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140829003544) do
   end
 
   add_index "sources", ["author_id"], name: "index_sources_on_author_id"
+  add_index "sources", ["feed_url"], name: "index_sources_on_feed_url", unique: true
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
