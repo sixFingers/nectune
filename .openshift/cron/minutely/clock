@@ -1,4 +1,4 @@
-#!/bin/rhcsh
+#!/bin/bash
 
 export PATH=$(build_path)
 export LD_LIBRARY_PATH=$(build_ld_library_path)
