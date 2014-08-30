@@ -26,6 +26,8 @@ group :development, :test do
   gem 'thor'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'capybara'
 end
 
 # Add support for the MySQL

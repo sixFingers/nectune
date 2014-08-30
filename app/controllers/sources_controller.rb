@@ -4,6 +4,7 @@ require 'feedjira'
 class SourcesController < ApplicationController
   before_action :set_source, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  include SourcesHelper
 
   # GET /sources
   # GET /sources.json
@@ -25,16 +26,31 @@ class SourcesController < ApplicationController
   # GET /sources/new
   def new
     @sources = []
+    errors = false
 
     if params[:lookup_url]
-      @feed_urls = FeedDetector.fetch_feed_urls(params[:lookup_url])
+      lookup_url = normalize_url(params[:lookup_url])
+      @feed_urls = FeedDetector.fetch_feed_urls(lookup_url)
       if @feed_urls.count > 0
-        feeds = Feedjira::Feed.fetch_and_parse(@feed_urls)
-
-        feeds.each do |key, value|
-          @sources << Source.new(name: value.title, url: value.url, feed_url: key)
+        @feed_urls.each do |feed_url|
+          if valid_url?(feed_url)
+            feed = Feedjira::Feed.fetch_and_parse(feed_url)
+            if Feedjira::Parser.const_defined?(feed.class.to_s)
+              @sources << Source.new(name: feed.title, url: feed.url, feed_url: feed_url)
+            else
+              error = true
+            end
+          else
+            error = true
+          end
         end
+      else
+        error = true
       end
+    end
+
+    if error
+      flash[:notice] = 'Impossible to extract a valid feed.'
     end
   end
 
