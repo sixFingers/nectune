@@ -1,3 +1,3 @@
 task :clock => :environment do
-  Rails.logger.warn('hello')
+  puts 'hello'
 end
