@@ -1,6 +1,10 @@
-sqlite: &sqlite
-  adapter: sqlite3
-  database: db/<%= Rails.env %>.sqlite3
+local: &local
+  adapter: mysql2
+  database: "nectune"
+  username: "root"
+  password: ""
+  host:     "localhost"
+  port:     "3306"
 
 mysql: &mysql
   adapter: mysql2
@@ -24,7 +28,7 @@ defaults: &defaults
   pool: 5
   timeout: 5000
   encoding: utf8
-  <<: *<%= ENV['RAILS_DB'] || "sqlite" %>
+  <<: *<%= ENV['RAILS_DB'] || "local" %>
 
 development:
   <<: *defaults
