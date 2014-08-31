@@ -13,12 +13,12 @@
       <% if item.content != '' %>
         <div class="item-content">
           <strong>Content</strong><br>
-          <%= markdown(item.content) %>
+          <%= item.content %>
         </div>
       <% elsif item.summary != '' %>
         <div class="item-summary">
           <strong>Summary</strong><br>
-          <%= markdown(item.summary) %>
+          <%= item.summary %>
         </div>
       <% end %>
     </div>

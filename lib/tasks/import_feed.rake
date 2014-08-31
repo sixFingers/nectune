@@ -1,4 +1,4 @@
-require 'reverse_markdown'
+# require 'reverse_markdown'
 
 task :import_feed => :environment do
   Source.all.each do |source|
@@ -36,8 +36,10 @@ task :import_feed => :environment do
         title: entry.title,
         url: entry.url,
         author: author,
-        content: ReverseMarkdown.convert(entry.content),
-        summary: ReverseMarkdown.convert(entry.summary),
+        # content: ReverseMarkdown.convert(entry.content),
+        # summary: ReverseMarkdown.convert(entry.summary),
+        content: entry.content,
+        summary: entry.summary,
         image: entry.image,
         published: entry.published,
         updated: entry.updated,

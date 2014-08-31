@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831190946) do
+ActiveRecord::Schema.define(version: 20140831203809) do
 
   create_table "authors", force: true do |t|
     t.string   "name"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20140831190946) do
   create_table "items", force: true do |t|
     t.string   "title"
     t.string   "url"
-    t.text     "content"
-    t.text     "summary"
+    t.text     "content",    limit: 2147483647
+    t.text     "summary",    limit: 2147483647
     t.string   "image"
     t.datetime "published"
     t.datetime "updated"
