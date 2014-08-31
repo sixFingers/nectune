@@ -1,3 +1,5 @@
+require 'reverse_markdown'
+
 task :import_feed => :environment do
   Source.all.each do |source|
     items_created = 0
@@ -8,7 +10,9 @@ task :import_feed => :environment do
         source: source
       )
 
-      author.save
+      if !author.save
+        author = Author.find_by(name: entry.author, source: source)
+      end
 
       categories = []
       entry.categories.each do |name|
@@ -17,16 +21,23 @@ task :import_feed => :environment do
           authorable: author
         )
 
-        category.save
+        if !category.save
+          category = Category.find_by(name: name, authorable: author)
+        end
+
         categories << category
       end
+
+      # Notes
+      # - 'image' fields contains invariably images and other media enclosures (eg.: MP3).
+      #   This should be handled.
 
       item = Item.new(
         title: entry.title,
         url: entry.url,
         author: author,
-        content: entry.content,
-        summary: entry.summary,
+        content: ReverseMarkdown.convert(entry.content),
+        summary: ReverseMarkdown.convert(entry.summary),
         image: entry.image,
         published: entry.published,
         updated: entry.updated,

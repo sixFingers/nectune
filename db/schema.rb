@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831184143) do
+ActiveRecord::Schema.define(version: 20140831190946) do
 
   create_table "authors", force: true do |t|
     t.string   "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20140831184143) do
   end
 
   add_index "categories", ["authorable_id"], name: "index_categories_on_authorable_id", using: :btree
+  add_index "categories", ["name", "authorable_id", "authorable_type"], name: "index_categories_on_name_and_authorable_id_and_authorable_type", unique: true, using: :btree
 
   create_table "categories_items", force: true do |t|
     t.integer "item_id"
@@ -43,7 +44,6 @@ ActiveRecord::Schema.define(version: 20140831184143) do
   create_table "items", force: true do |t|
     t.string   "title"
     t.string   "url"
-    t.integer  "author_id"
     t.text     "content"
     t.text     "summary"
     t.string   "image"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140831184143) do
     t.integer  "entry_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "author_id"
   end
 
   add_index "items", ["url"], name: "index_items_on_url", unique: true, using: :btree
