@@ -20,8 +20,10 @@
                 <img src="http://g.etfv.co/<%= source.url %>">
                 <%= source.title %>
               </label>
+              <p class="help-block"><%= source.description %></p>
               <input type="hidden" value="<%= source.title %>" name="sources[][title]">
               <input type="hidden" value="<%= source.url %>" name="sources[][url]">
+              <input type="hidden" value="<%= source.description %>" name="sources[][description]">
             </div>
           <% end %>
         </div>
