@@ -21,7 +21,11 @@ task :import_feed => :environment do
           authorable: author
         )
 
-        if !category.save
+        begin
+          category.save
+        rescue
+          # Handle ActiveRecord::RecordNotUnique errors,
+          # wasn't able to fix this more elegantly
           category = Category.find_by(name: name, authorable: author)
         end
 
