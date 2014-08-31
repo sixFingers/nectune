@@ -36,7 +36,7 @@ class SourcesController < ApplicationController
           if valid_url?(feed_url)
             feed = Feedjira::Feed.fetch_and_parse(feed_url)
             if Feedjira::Parser.const_defined?(feed.class.to_s.demodulize)
-              @sources << Source.new(name: feed.title, url: feed.url, feed_url: feed_url)
+              @sources << Source.new(title: feed.title, url: feed.url, feed_url: feed_url)
             else
               error = true
             end
@@ -63,7 +63,7 @@ class SourcesController < ApplicationController
   def create
     if params['sources']
       params['sources'].each do |source|
-        @source = Source.new(name: source['name'], url: source['url'], feed_url: source['feed_url'], author: current_user)
+        @source = Source.new(title: source['title'], url: source['url'], feed_url: source['feed_url'], author: current_user)
         if(!@source.save)
           flash[:notice] = 'One or more feeds were already available.'
         end

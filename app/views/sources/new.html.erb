@@ -18,9 +18,9 @@
               <label>
                 <input type="checkbox" value="<%= source.feed_url %>" name="sources[][feed_url]">
                 <img src="http://g.etfv.co/<%= source.url %>">
-                <%= source.name %>
+                <%= source.title %>
               </label>
-              <input type="hidden" value="<%= source.name %>" name="sources[][name]">
+              <input type="hidden" value="<%= source.title %>" name="sources[][title]">
               <input type="hidden" value="<%= source.url %>" name="sources[][url]">
             </div>
           <% end %>
