@@ -1,0 +1,39 @@
+<div class="col-md-4 col-md-offset-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <%= form_tag(new_source_path, method: "post") do %>
+        <div class="input-group">
+          <%= text_field_tag(:lookup_url, nil, class: 'form-control', placeholder: 'Site or feed url') %>
+          <span class="input-group-btn">
+            <%= submit_tag("Search", class: "btn btn-default") %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+    <% if @sources.count > 0%>
+      <%= form_tag(sources_path, method: "post") do %>
+        <div class="panel-body">
+          <% @sources.each do |source| %>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value="<%= source.feed_url %>" name="sources[][feed_url]">
+                <img src="http://g.etfv.co/<%= source.url %>">
+                <%= source.title %>
+              </label>
+              <p class="help-block"><%= source.description %></p>
+              <input type="hidden" value="<%= source.title %>" name="sources[][title]">
+              <input type="hidden" value="<%= source.url %>" name="sources[][url]">
+              <input type="hidden" value="<%= source.description %>" name="sources[][description]">
+            </div>
+          <% end %>
+        </div>
+        <div class="panel-footer text-right">
+          <%= submit_tag("Import selected feeds", class: "btn btn-default") %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%= link_to 'Back', sources_path %>
+</div>
+
+

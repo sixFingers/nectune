@@ -1,0 +1,10 @@
+<%= form_for(@source) do |f| %>
+  <%= render :partial => 'common/form_messages', :locals => {:model => @source} %>
+  <div class="form-group">
+    <label for="url">Url</label>
+    <%= f.text_field :url, class: 'form-control' %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

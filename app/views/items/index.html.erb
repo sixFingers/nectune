@@ -1,0 +1,35 @@
+<h1>Listing items</h1>
+
+<% @items.each do |item| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= link_to item.title, item %></h3>
+    </div>
+    <div class="panel-body">
+      By <%= item.author.name %><br>
+      Published <%= item.published %><br>
+      <img src="<%= item.image %>"><br>
+
+      <% if item.content != '' %>
+        <div class="item-content">
+          <strong>Content</strong><br>
+          <%= item.content %>
+        </div>
+      <% elsif item.summary != '' %>
+        <div class="item-summary">
+          <strong>Summary</strong><br>
+          <%= item.summary %>
+        </div>
+      <% end %>
+    </div>
+    <div class="panel-footer">
+      <a href="<%= item.url %>" target="_blank">Original link</a> |
+      Categories:
+      <% item.categories.each do |category| %>
+        <span class="label label-default"><%= category.name %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= link_to 'New Item', new_item_path %>
