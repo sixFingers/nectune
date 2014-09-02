@@ -36,11 +36,11 @@ group :production, :mysql do
 end
 
 group :production, :postgresql do
-  gem 'bundler'
   gem 'pg'
 end
 
 ### / OpenShift changes
+gem 'bundler'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
