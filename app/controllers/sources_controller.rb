@@ -1,8 +1,9 @@
-require 'feed_detector'
+require 'feedbag'
 require 'feedjira'
 
 class SourcesController < ApplicationController
   before_action :set_source, only: [:show, :edit, :update, :destroy]
+  before_action :set_allowed_feed_classes
   before_action :authenticate_user!
   include SourcesHelper
 
@@ -30,12 +31,14 @@ class SourcesController < ApplicationController
 
     if params[:lookup_url]
       lookup_url = normalize_url(params[:lookup_url])
-      @feed_urls = FeedDetector.fetch_feed_urls(lookup_url)
+      # @feed_urls = FeedDetector.fetch_feed_urls(lookup_url)
+      @feed_urls = Feedbag.find(lookup_url)
       if @feed_urls.count > 0
         @feed_urls.each do |feed_url|
           if valid_url?(feed_url)
             feed = Feedjira::Feed.fetch_and_parse(feed_url)
-            if Feedjira::Parser.const_defined?(feed.class.to_s.demodulize)
+            if @allowed_feed_classes.include? feed.class.to_s.demodulize.to_sym
+            # if Feedjira::Parser.const_defined?(feed.class.to_s.demodulize)
               @sources << Source.new(title: feed.title, url: feed.url, feed_url: feed_url, description: feed.description)
             else
               error = true
@@ -50,7 +53,7 @@ class SourcesController < ApplicationController
     end
 
     if error
-      flash[:notice] = 'Impossible to extract a valid feed.'
+      flash.now[:notice] = 'Impossible to extract a valid feed.'
     end
   end
 
@@ -65,12 +68,12 @@ class SourcesController < ApplicationController
       params['sources'].each do |source|
         @source = Source.new(title: source['title'], url: source['url'], feed_url: source['feed_url'], description: source['description'], author: current_user)
         if(!@source.save)
-          flash[:notice] = 'One or more feeds were already available.'
+          redirect_to sources_path, notice: 'One or more feeds were already available.' and return
+        else
+          redirect_to sources_path and return
         end
       end
     end
-
-    redirect_to sources_path
   end
 
   # PATCH/PUT /sources/1
@@ -101,6 +104,10 @@ class SourcesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_source
       @source = Source.find(params[:id])
+    end
+
+    def set_allowed_feed_classes
+      @allowed_feed_classes = Feedjira::Parser.constants.select {|c| Class === Feedjira::Parser.const_get(c)}
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
