@@ -36,11 +36,11 @@ group :production, :mysql do
 end
 
 group :production, :postgresql do
+  gem 'bundler'
   gem 'pg'
 end
 
 ### / OpenShift changes
-gem 'bundler'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
@@ -66,7 +66,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Rss / Atom
 gem 'nokogiri'
-gem 'feed_detector'
 gem 'feedjira'
 gem 'feedbag'
 

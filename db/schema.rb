@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 20140831203809) do
   create_table "items", force: true do |t|
     t.string   "title"
     t.string   "url"
-    t.integer  "author_id"
     t.text     "content",    limit: 2147483647
     t.text     "summary",    limit: 2147483647
     t.string   "image"
@@ -53,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140831203809) do
     t.integer  "entry_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "author_id"
   end
 
   add_index "items", ["url"], name: "index_items_on_url", unique: true, using: :btree

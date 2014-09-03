@@ -31,14 +31,13 @@ class SourcesController < ApplicationController
 
     if params[:lookup_url]
       lookup_url = normalize_url(params[:lookup_url])
-      # @feed_urls = FeedDetector.fetch_feed_urls(lookup_url)
       @feed_urls = Feedbag.find(lookup_url)
+
       if @feed_urls.count > 0
         @feed_urls.each do |feed_url|
           if valid_url?(feed_url)
             feed = Feedjira::Feed.fetch_and_parse(feed_url)
             if @allowed_feed_classes.include? feed.class.to_s.demodulize.to_sym
-            # if Feedjira::Parser.const_defined?(feed.class.to_s.demodulize)
               @sources << Source.new(title: feed.title, url: feed.url, feed_url: feed_url, description: feed.description)
             else
               error = true
